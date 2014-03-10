@@ -55,6 +55,12 @@ class Fieldmanager_Datasource_Post extends Fieldmanager_Datasource {
      */
     public $date_format = 'Y-m-d';
  
+    /**
+     * @var string
+     * Capability required to refer to this post
+     */
+    public $cap = 'edit_post';
+
     // constructor not required for this datasource; options are just set to keys,
     // which Fieldmanager_Datasource does.
  
@@ -182,7 +188,7 @@ class Fieldmanager_Datasource_Post extends Fieldmanager_Datasource {
     public function presave( Fieldmanager_Field $field, $value, $current_value ) {
         if ( empty( $value ) ) return;
         $value = intval( $value );
-        if( !current_user_can( 'edit_post', $value ) ) {
+        if( !empty( $this->cap ) && !current_user_can( $this->cap, $value ) ) {
             die( 'Tried to refer to post ' . $value . ' which user cannot edit.' );  
         }
         if ( $this->reciprocal ) {

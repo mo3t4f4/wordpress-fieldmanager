@@ -1,3 +1,5 @@
+var fm_validation;
+
 ( function( $ ) {
 
 fm_validation = {
@@ -17,6 +19,10 @@ fm_validation = {
 		// It will also work around the fact that many WordPress built in forms have submit buttons called 'submit'
 		// which removes the ability to call the Javascript .submit() method for the form.
 		HTMLFormElement.prototype.submit.call( $( form_element )[0] );
+	},
+	// meant to be overriden by custom plugins.
+	errorPlacement: function(error, element) {
+		error.appendTo(element.parent());
 	}
 }
 
